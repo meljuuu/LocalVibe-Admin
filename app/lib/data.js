@@ -53,3 +53,13 @@ try {
 
 
 
+export const fetchTotalUsers = async () => {
+    try {
+        await connectToDB();
+        const totalAccounts = await User.countDocuments(); // Get total count
+        return totalAccounts;
+    } catch (err) {
+        console.log(err);
+        throw new Error("Failed to fetch total users!");
+    }
+};
