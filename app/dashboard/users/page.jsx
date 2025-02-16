@@ -11,7 +11,7 @@ const Userspage = async ({searchParams}) => {
     const page = searchParams?.page || 1;
     const {count, users} = await fetchUsers(q,page);
 
-    
+    console.log(users)
     
     return (
         <div className={styles.container}>
@@ -27,7 +27,6 @@ const Userspage = async ({searchParams}) => {
                         <td>Name</td>
                         <td>Email</td>
                         <td>Created At</td>
-                        <td>Role</td>
                         <td>Status</td>
                         <td>Action</td>
                     </tr>
@@ -44,12 +43,11 @@ const Userspage = async ({searchParams}) => {
                                     height={40} 
                                     className={styles.userImage}
                                 />
-                            {user.username}
+                            {user.name}
                             </div>
                         </td>
                         <td>{user.email}</td>
                         <td>{user.createdAt?.toString().slice(4, 16)}</td>
-                        <td>{user.isAdmin ? "S-Admin" : "N-Admin"}</td>
                         <td>{user.isActive ? "Active" : "Passive"}</td>
                         
                         <td>

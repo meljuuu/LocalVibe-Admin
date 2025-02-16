@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      min: 3,
+      max: 20,
+    },
+    name: {
       type: String,
       required: true,
       unique: true,
@@ -21,9 +28,9 @@ const userSchema = new mongoose.Schema(
     img: {
       type: String,
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    accountType: {
+      type: String,
+      required: true,
     },
     isActive: {
       type: Boolean,
@@ -42,14 +49,16 @@ const userSchema = new mongoose.Schema(
 
 const reportSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // Reference to User model
       required: true,
-      unique: true,
-      minlength: 8,
-      maxlength: 16,
     },
-    type: {
+    reportedItemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    itemType: {
       type: String,
       required: true,
     },
@@ -57,24 +66,15 @@ const reportSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
-      type: String,
-      required: true,
-    },
-    img: {
-      type: String,
-    },
-    reportcount: {
+    reportCount: {
       type: Number,
       required: true,
       min: 1,
     },
-    email: {
-      type: String,
+    reportDate: {
+      type: Date,
       required: true,
-      unique: true,
-      minlength: 5,
-      maxlength: 20,
+      default: Date.now,
     },
   },
   { timestamps: true }

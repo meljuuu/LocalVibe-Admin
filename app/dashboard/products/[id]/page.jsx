@@ -1,28 +1,29 @@
 import styles from "@/app/ui/dashboard/products/singleProduct/singleProduct.module.css";
 import Image from "next/image";
+import { fetchReport } from "@/app/lib/data";
 
 
-const SingleProductPage = () => {
+const SingleProductPage = async ({ params }) => {
+
+     const { id } = params;
+    const report = await fetchReport(id)
     return (
         <div className={styles.container}>
-            <div className={styles.infoContainer}>
-                <div className={styles.imgContainer}>
-                    <Image src="/noavatar.png" alt="" fill/>
-                </div>
-                Hotdog
-            </div>
             <div className={styles.formContainer}>
                 <form action="" className={styles.form}>
-                    <label>Name</label>
-                    <input type="text" name="title" placeholder="Harvey Samson"/>
-                    <label>Type</label>
-                    <input type="number" name="price" placeholder="normal"/>
+                <input type="hidden" name="id" value={report.id} />
+                    <label>User ID</label>
+                    <input type="text" name="userId" placeholder={report.userId}/>
+                    <label>reportedItemId</label>
+                    <input type="number" name="price" placeholder={report.reportedItemId}/>
                     <label>Report count</label>
-                    <input type="number" name="stock" placeholder="99"/>
+                    <input type="number" name="stock" placeholder={report.reportCount}/>
                     <label>Reason</label>
-                    <input type="text" name="color" placeholder="red"/>
-                    <label>Size</label>
-                    <textarea type="text" name="size" placeholder="Ballas street"/>
+                    <input type="text" name="reason" placeholder={report.reason}/>
+                    <label>Type</label>
+                    <input type="text" name="itemType" placeholder={report.itemType}/>
+                    <label>Report Date</label>
+                    <textarea type="text" name="size" placeholder={report.reportDate?.toString().slice(4, 16)}/>
                     
                     <label>Content</label>
                     <textarea name="desc" id="desc" rows="10" placeholder="email">

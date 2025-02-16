@@ -25,8 +25,8 @@ const Productspage = async ({searchParams}) => {
         <table className={styles.table}>
             <thead>
                 <tr>
-                    <td>Name</td>
-                    <td>Email</td>
+                    <td>Reported At</td>
+                    <td>Report Count</td>
                     <td>Type</td> 
                     <td>Reason</td>
                     <td>Action</td>
@@ -37,18 +37,12 @@ const Productspage = async ({searchParams}) => {
                 <tr key={report.id}>
                     <td>
                         <div className={styles.product}>
-                            <Image 
-                                src={report.img || "/noproduct.jpg" }
-                                alt="" 
-                                width={40} 
-                                height={40} 
-                                className={styles.productImage}
-                            />
-                        {report.name}
+                            
+                        {report.reportDate?.toString().slice(4, 16)}
                         </div>
                     </td>
-                    <td>{report.email}</td>
-                    <td>{report.type}</td>
+                    <td>{report.reportCount}</td>
+                    <td>{report.itemType}</td>
                     <td>{report.reason}</td>
                     
                     <td>

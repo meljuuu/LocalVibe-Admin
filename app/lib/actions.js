@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 
 export const addUser = async (formData)=>{
     "use server"
-    const {username, email, password, phone, address, isAdmin, isActive} =
+    const {userName, email, password, name, accountType} =
     Object.fromEntries(formData);
 
     try {
@@ -16,13 +16,11 @@ export const addUser = async (formData)=>{
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password,salt)
         const newUser = new User({
-            username, 
+            userName,
+            name, 
             email, 
-            password:hashedPassword, 
-            phone, 
-            address, 
-            isAdmin, 
-            isActive
+            password:hashedPassword,  
+            accountType, 
         });
 
         
@@ -55,20 +53,18 @@ export const deleteUser = async (formData)=>{
 
 export const updateUser = async (formData) => {
     "use server"
-    const {id, username, email, password, phone, address, isAdmin, isActive } = 
+    const {id, userName, email, password, name, accountType} = 
     Object.fromEntries(formData);
 
     try {
         connectToDB();
 
         const updateFields = {
-            username,
+            userName,
             email,
             password,
-            phone,
-            address,
-            isAdmin,
-            isActive
+            name,
+            accountType,
         }
         Object.keys(updateFields).forEach(
             (key)=>
@@ -85,4 +81,21 @@ export const updateUser = async (formData) => {
     revalidatePath("/dashboard/users")
     permanentRedirect("/dashboard/users")
 
+}
+
+export const deleteReport = async (formData)=>{
+    "use server"
+    const { id } =
+    Object.fromEntries(formData);
+
+    try {
+    connectToDB();
+    await Report.findByIdAndDelete(id); 
+    }catch(err){
+        console.log(err)
+        throw new Error("failed to delete Report!");
+    }
+
+    revalidatePath("/dashboard/products")
+    
 }

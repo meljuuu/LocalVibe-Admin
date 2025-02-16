@@ -13,31 +13,22 @@ const SingleUserPage = async ({ params }) => {
                 <div className={styles.imgContainer}>
                     <Image src={user.img || "/noavatar.png" } alt="" fill/>
                 </div>
-                {user.username}
+                {user.name}
             </div>
             <div className={styles.formContainer}>
                 <form action={updateUser} className={styles.form}>
                     <input type="hidden" name="id" value={user.id} />
                     <label>Username</label>
-                    <input type="text" name="username" placeholder={user.username}/>
+                    <input type="text" name="username" placeholder={user.userName}/>
                     <label>Email</label>
                     <input type="email" name="email" placeholder={user.email}/>
                     <label>Password</label>
                     <input type="Password" name="password"/>
-                    <label>Phone</label>
-                    <input type="text" name="phone" placeholder={user.phone}/>
-                    <label>Address</label>
-                    <textarea type="text" name="address" placeholder={user.address}/>
-                    <label>Is Admin?</label>
-                    <select name="isAdmin" id="isAdmin">
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                    </select>
-                    <label>Is Active?</label>
-                    <select name="isActive" id="isActive">
-                        <option value={true}>Yes</option>
-                        <option value={false}>No</option>
-                    </select>
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder={user.name}/>
+                    <label>Account type</label>
+                    <textarea type="text" name="acctype" placeholder={user.accountType}/>
+
                     <button>Update</button>
                 </form>
             </div>
