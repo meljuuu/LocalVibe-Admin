@@ -7,7 +7,7 @@ import {searchParams} from "next/navigation"
 import { fetchReports } from "@/app/lib/data";
 
 
-const Productspage = async () => {
+const Productspage = async ({searchParams}) => {
     const q = searchParams?.q || "";
     const page = searchParams?.page || 1 ;
     const { count, reports } = await fetchReports(q, page);
@@ -67,7 +67,7 @@ const Productspage = async () => {
                 ))}
             </tbody>
         </table>
-        <Pagination />
+        <Pagination count={count} />
     </div>
     )
 }

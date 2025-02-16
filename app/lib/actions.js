@@ -35,3 +35,54 @@ export const addUser = async (formData)=>{
     revalidatePath("/dashboard/users")
     permanentRedirect("/dashboard/users")
 }
+
+export const deleteUser = async (formData)=>{
+    "use server"
+    const { id } =
+    Object.fromEntries(formData);
+
+    try {
+    connectToDB();
+    await User.findByIdAndDelete(id); 
+    }catch(err){
+        console.log(err)
+        throw new Error("failed to delete user!");
+    }
+
+    revalidatePath("/dashboard/users")
+    
+}
+
+export const updateUser = async (formData) => {
+    "use server"
+    const {id, username, email, password, phone, address, isAdmin, isActive } = 
+    Object.fromEntries(formData);
+
+    try {
+        connectToDB();
+
+        const updateFields = {
+            username,
+            email,
+            password,
+            phone,
+            address,
+            isAdmin,
+            isActive
+        }
+        Object.keys(updateFields).forEach(
+            (key)=>
+                (updateFields[key]==="" || undefined) && delete updateFields[key]
+        );
+
+        await User.findByIdAndUpdate(id, updateFields);
+
+    }catch(err){
+        console.log(err)
+        throw new Error("failed to update user!");
+    }
+
+    revalidatePath("/dashboard/users")
+    permanentRedirect("/dashboard/users")
+
+}

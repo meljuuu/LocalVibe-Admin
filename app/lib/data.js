@@ -40,5 +40,16 @@ try {
     }
 };
 
+export const fetchUser = async (id) => {
+try {
+    await connectToDB();
+    const user = await User.findById(id);
+    return user;
+    } catch (err) {
+    console.log(err);
+    throw new Error("Failed to fetch user!");
+    }
+};
+
 
 
