@@ -36,7 +36,8 @@ export const fetchReports = async (q, page) => {
             $or: [
                 { itemType: { $regex: regex } },
                 { reason: { $regex: regex } },
-                { content: { $regex: regex } }
+                { content: { $regex: regex } },
+                { reportTitle: { $regex: regex } }
             ]
         }).countDocuments();
 
@@ -44,7 +45,8 @@ export const fetchReports = async (q, page) => {
             $or: [
                 { itemType: { $regex: regex } },
                 { reason: { $regex: regex } },
-                { content: { $regex: regex } }
+                { content: { $regex: regex } },
+                { reportTitle: { $regex: regex } }
             ]
         })
         .limit(ITEM_PER_PAGE)
