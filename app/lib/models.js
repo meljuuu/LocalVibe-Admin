@@ -66,6 +66,14 @@ const reportSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    reportTitle: {
+      type: String,
+      required: true,
+    },
+    reportImage: {
+      type: String,
+      required: true,
+    },
     reportCount: {
       type: Number,
       required: true,
