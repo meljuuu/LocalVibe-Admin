@@ -11,7 +11,6 @@ const Userspage = async ({searchParams}) => {
     const page = searchParams?.page || 1;
     const {count, users} = await fetchUsers(q,page);
 
-    console.log(users)
     
     return (
         <div className={styles.container}>
