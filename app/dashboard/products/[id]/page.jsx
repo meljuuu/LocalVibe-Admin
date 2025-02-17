@@ -2,38 +2,41 @@ import styles from "@/app/ui/dashboard/products/singleProduct/singleProduct.modu
 import Image from "next/image";
 import { fetchReport } from "@/app/lib/data";
 
-
 const SingleProductPage = async ({ params }) => {
+    const { id } = params;
+    const report = await fetchReport(id);
 
-     const { id } = params;
-    const report = await fetchReport(id)
+    if (!report) {
+        console.error('Report not found');
+        return <div>Report not found</div>;
+    }
+
+    console.log('Fetched Report:', report.reportTitle);
+
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>
                 <form action="" className={styles.form}>
-                <input type="hidden" name="id" value={report.id} />
+                    <input type="hidden" name="id" value={report._id} />
                     <label>User ID</label>
-                    <input type="text" name="userId" placeholder={report.userId}/>
-                    <label>reportedItemId</label>
-                    <input type="number" name="price" placeholder={report.reportedItemId}/>
-                    <label>Report count</label>
-                    <input type="number" name="stock" placeholder={report.reportCount}/>
+                    <input type="text" name="userId" placeholder={report.userId.toString()} />
+                    <label>Reported Item ID</label>
+                    <input type="number" name="reportedItemId" placeholder={report.reportedItemId.toString()} />
+                    <label>Report Count</label>
+                    <input type="number" name="stock" placeholder={report.reportCount.toString()} />
                     <label>Reason</label>
-                    <input type="text" name="reason" placeholder={report.reason}/>
+                    <input type="text" name="reason" placeholder={report.reason} />
                     <label>Type</label>
-                    <input type="text" name="itemType" placeholder={report.itemType}/>
+                    <input type="text" name="itemType" placeholder={report.itemType} />
                     <label>Report Date</label>
-                    <textarea type="text" name="size" placeholder={report.reportDate?.toString().slice(4, 16)}/>
-                    
-                    <label>Content</label>
-                    <textarea name="desc" id="desc" rows="10" placeholder="email">
-
-                    </textarea>
+                    <textarea name="size" placeholder={report.reportDate?.toString().slice(4, 16)} />
+                    <label>Report Title</label>
+                    <input type="text" name="reportTitle" placeholder={report.reportTitle} />
                     <button>Update</button>
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SingleProductPage
+export default SingleProductPage;
