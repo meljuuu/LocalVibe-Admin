@@ -4,7 +4,7 @@ import styles from "@/app/ui/dashboard/products/products.module.css";
 import Search from "@/app/ui/dashboard/search/search";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import {searchParams} from "next/navigation"
-import { fetchReports } from "@/app/lib/data";
+import { fetchReports, fetchUser } from "@/app/lib/data";
 import { deleteReport } from "@/app/lib/actions"
 
 
@@ -13,7 +13,8 @@ const Productspage = async ({searchParams}) => {
     const page = searchParams?.page || 1 ;
     const { count, reports } = await fetchReports(q, page);
 
-    console.log(reports)
+    const userPromises = reports.map(report => fetchUser(report.userId));
+    const users = await Promise.all(userPromises);
 
     return (
         <div className={styles.container}>
@@ -28,13 +29,13 @@ const Productspage = async ({searchParams}) => {
                 <tr>
                     <td>Reported At</td>
                     <td>Report Count</td>
-                    <td>Type</td> 
+                    <td>Name</td> 
                     <td>Reason</td>
                     <td>Action</td>
                 </tr>
             </thead>
             <tbody>
-                {reports.map(report=>(
+                                {reports.map((report, index) => (
                 <tr key={report.id}>
                     <td>
                         <div className={styles.product}>
@@ -43,8 +44,8 @@ const Productspage = async ({searchParams}) => {
                         </div>
                     </td>
                     <td>{report.reportCount}</td>
-                    <td>{report.itemType}</td>
-                    <td>{report.reason}</td>
+                    <td>{users[index]?.name}</td>
+                    <td>{report.reportTitle}</td>
                     
                     <td>
                         <div className={styles.buttons}>

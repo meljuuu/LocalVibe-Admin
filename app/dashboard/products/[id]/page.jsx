@@ -23,11 +23,11 @@ const SingleProductPage = async ({ params }) => {
                     <label>Type</label>
                     <input type="text" name="itemType" placeholder={report.itemType}/>
                     <label>Report Date</label>
-                    <textarea type="text" name="size" placeholder={report.reportDate?.toString().slice(4, 16)}/>                   
+                    <textarea type="text" name="size" placeholder={report.reportDate?.toString().slice(4, 16)}/>
                     <label>Report Title</label>
                     <input name="desc" id="desc" rows="10" placeholder={report.reportTitle}/>
 
-                    <button>Update</button>
+                    <button type="hidden">Update</button>
                 </form>
             </div>
         </div>
