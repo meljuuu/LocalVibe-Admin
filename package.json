@@ -13,6 +13,7 @@
     "bcrypt": "^5.1.1",
     "mongoose": "^8.8.4",
     "next": "^14.2.18",
+    "next-auth": "^5.0.0-beta.3",
     "react": "18",
     "react-dom": "18",
     "react-icons": "^4.11.0",

@@ -24,7 +24,7 @@ const SingleProductPage = async ({ params }) => {
                     <input type="text" name="itemType" placeholder={report.itemType}/>
                     <label>Report Date</label>
                     <textarea type="text" name="size" placeholder={report.reportDate?.toString().slice(4, 16)}/>
-                    <label>Report Title</label>
+                    <label>Content</label>
                     <input name="desc" id="desc" rows="10" placeholder={report.reportTitle}/>
 
                     <button type="hidden">Update</button>

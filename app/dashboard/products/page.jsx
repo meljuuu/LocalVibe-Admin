@@ -29,7 +29,7 @@ const Productspage = async ({searchParams}) => {
                 <tr>
                     <td>Reported At</td>
                     <td>Report Count</td>
-                    <td>Name</td> 
+                    <td>User</td> 
                     <td>Reason</td>
                     <td>Action</td>
                 </tr>

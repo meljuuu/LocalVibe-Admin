@@ -33,9 +33,9 @@ const menuItems = [
           icon: <MdAnalytics />,
         },
         {
-          title: "Transactions",
-          path: "/dashboard/transactions",
-          icon: <MdAttachMoney />,
+          title: "Admin",
+          path: "/dashboard/admin",
+          icon: <MdSupervisedUserCircle />,
         },
       ],
     },

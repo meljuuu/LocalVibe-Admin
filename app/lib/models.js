@@ -88,6 +88,44 @@ const reportSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const adminSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      min: 3,
+      max: 20,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    phone: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export const Report = mongoose.models.Report || mongoose.model("Report", reportSchema);
+
+export const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);

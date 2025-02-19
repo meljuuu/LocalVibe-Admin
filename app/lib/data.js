@@ -1,4 +1,4 @@
-import { User, Report } from "./models";
+import { User, Report, Admin } from "./models";
 import { connectToDB } from "./utils";
 
 export const fetchUsers = async (q, page) => {
@@ -50,7 +50,7 @@ export const fetchReports = async (q, page) => {
         .limit(ITEM_PER_PAGE)
         .skip(ITEM_PER_PAGE * (page - 1));
 
-        console.log("Fetched Reports:", reports); // Debugging output
+        
         return { count, reports };
     } catch (err) {
         console.log("Error fetching reports:", err);
@@ -92,3 +92,35 @@ export const fetchReport = async (id) => {
         throw new Error("Failed to fetch Report!");
         }
     };
+
+
+    export const fetchAdmins = async (q, page) => {
+        const regex = new RegExp(q, "i");
+      
+        const ITEM_PER_PAGE = 2;
+      
+        try {
+          await connectToDB();
+          const count = await Admin.find({ username: { $regex: regex } }).countDocuments();
+          const admins = await Admin.find({ username: { $regex: regex } })
+            .limit(ITEM_PER_PAGE)
+            .skip(ITEM_PER_PAGE * (page - 1));
+          return { count, admins };
+        } catch (err) {
+          console.log(err);
+          throw new Error("Failed to fetch admins!");
+        }
+      };
+      
+      export const fetchAdmin = async (id) => {
+        console.log(id);
+        try {
+          await connectToDB();
+          const admin = await Admin.findById(id);
+          return admin;
+        } catch (err) {
+          console.log(err);
+          throw new Error("Failed to fetch admin!");
+        }
+      };
+
