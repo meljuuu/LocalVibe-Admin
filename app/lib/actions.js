@@ -6,6 +6,7 @@ import { connectToDB } from "./utils";
 import { redirect } from "next/dist/server/api-utils";
 import { permanentRedirect } from "next/navigation";
 import bcrypt from "bcrypt";
+import { Post } from "./models";
 
 export const addUser = async (formData)=>{
     "use server"
@@ -83,23 +84,6 @@ export const updateUser = async (formData) => {
     revalidatePath("/dashboard/users")
     permanentRedirect("/dashboard/users")
 
-}
-
-export const deleteReport = async (formData)=>{
-    "use server"
-    const { id } =
-    Object.fromEntries(formData);
-
-    try {
-    connectToDB();
-    await Report.findByIdAndDelete(id); 
-    }catch(err){
-        console.log(err)
-        throw new Error("failed to delete Report!");
-    }
-
-    revalidatePath("/dashboard/products")
-    
 }
 
 export const addAdmin = async (formData) => {
@@ -183,3 +167,39 @@ export const updateAdmin = async (formData) => {
     permanentRedirect("/dashboard/admin")
 
 }
+
+export const deleteReport = async (formData) => {
+    "use server";
+    const { id, reportedItemId } = Object.fromEntries(formData);
+    console.log(`Attempting to delete report with ID: ${id} and reportedItemId: ${reportedItemId}`);
+
+    try {
+        connectToDB();
+        console.log("Database connection established.");
+
+        // Delete the post if the reportedItemId matches
+        const post = await Post.findById(reportedItemId);
+        if (post) {
+            console.log(`Post found with id: ${reportedItemId}. Deleting post.`);
+            await Post.findByIdAndDelete(reportedItemId);
+            console.log(`Post with id: ${reportedItemId} deleted successfully.`);
+        } else {
+            console.log(`No post found with id: ${reportedItemId}.`);
+        }
+
+        // Delete the report
+        const result = await Report.findByIdAndDelete(id);
+        if (result) {
+            console.log(`Report with ID: ${id} deleted successfully.`);
+        } else {
+            console.log(`No report found with ID: ${id}.`);
+        }
+
+    } catch (err) {
+        console.log("Error occurred during deletion:", err);
+        throw new Error("Failed to delete report!");
+    }
+
+    revalidatePath("/dashboard/products");
+    permanentRedirect("/dashboard/products");
+};
