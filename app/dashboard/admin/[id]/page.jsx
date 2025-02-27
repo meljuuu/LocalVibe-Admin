@@ -2,11 +2,14 @@ import { updateAdmin } from "@/app/lib/actions";
 import { fetchAdmin } from "@/app/lib/data";
 import styles from "@/app/ui/dashboard/users/singleUser/singleUser.module.css";
 import Image from "next/image";
+import { decryptData } from "@/app/utils/encryption";
 
 const SingleAdminPage = async ({ params }) => {
   
   const { id } = params;
   const admin = await fetchAdmin(id);
+
+  const decryptedEmail = decryptData(admin.email);
 
   return (
     <div className={styles.container}>
@@ -22,7 +25,7 @@ const SingleAdminPage = async ({ params }) => {
           <label>Username</label>
           <input type="text" name="username" placeholder={admin.username} />
           <label>Email</label>
-          <input type="email" name="email" placeholder={admin.email} />
+          <input type="email" name="email" placeholder={decryptedEmail} />
           <label>Password</label>
           <input type="password" name="password" />
           <label>Phone</label>
