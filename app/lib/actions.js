@@ -3,7 +3,6 @@ import { User } from "./models";
 import { Report } from "./models";
 import { Admin } from "./models";
 import { connectToDB } from "./utils";
-import { redirect } from "next/dist/server/api-utils";
 import { permanentRedirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { Post } from "./models";
@@ -88,7 +87,7 @@ export const updateUser = async (formData) => {
 
 export const addAdmin = async (formData) => {
     "use server"
-    const {id, username, email, password, isAdmin, isActive, phone, address} =
+    const { username, email, password, isAdmin, isActive, phone, address} =
     Object.fromEntries(formData);
 
     try {
