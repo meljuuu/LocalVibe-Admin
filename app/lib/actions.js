@@ -1,3 +1,5 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
 import { User } from "./models";
 import { Report } from "./models";
@@ -8,7 +10,6 @@ import bcrypt from "bcrypt";
 import { Post } from "./models";
 
 export const addUser = async (formData)=>{
-    "use server"
     const {userName, email, password, name, accountType} =
     Object.fromEntries(formData);
 
@@ -37,7 +38,6 @@ export const addUser = async (formData)=>{
 }
 
 export const deleteUser = async (formData)=>{
-    "use server"
     const { id } =
     Object.fromEntries(formData);
 
@@ -54,7 +54,6 @@ export const deleteUser = async (formData)=>{
 }
 
 export const updateUser = async (formData) => {
-    "use server"
     const {id, userName, email, password, name, accountType} = 
     Object.fromEntries(formData);
 
@@ -86,15 +85,13 @@ export const updateUser = async (formData) => {
 }
 
 export const addAdmin = async (formData) => {
-    "use server"
-    const { username, email, password, isAdmin, isActive, phone, address} =
-    Object.fromEntries(formData);
+    const { username, email, password, isAdmin, isActive, phone, address } = Object.fromEntries(formData);
 
     try {
-        connectToDB();
+        await connectToDB();
 
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
         const newAdmin = new Admin({
             username,
             email,
@@ -105,9 +102,9 @@ export const addAdmin = async (formData) => {
             address,
         });
 
-    await newAdmin.save(); 
+        await newAdmin.save();
     } catch (err) {
-        console.log(err)
+        console.log(err);
         throw new Error("failed to create admin!");
     }
 
@@ -116,7 +113,6 @@ export const addAdmin = async (formData) => {
 }
 
 export const deleteAdmin = async (formData)=>{
-    "use server"
     const { id } =
     Object.fromEntries(formData);
 
@@ -134,8 +130,7 @@ export const deleteAdmin = async (formData)=>{
 }
 
 export const updateAdmin = async (formData) => {
-    "use server"
-    const {id, username, email, password, isAdmin, isActive, phone, address} = 
+    const {id, username, email, password, isAdmin, isActive, phone, address } = 
     Object.fromEntries(formData);
 
     try {
@@ -168,7 +163,6 @@ export const updateAdmin = async (formData) => {
 }
 
 export const deleteReport = async (formData) => {
-    "use server";
     const { id, reportedItemId } = Object.fromEntries(formData);
     console.log(`Attempting to delete report with ID: ${id} and reportedItemId: ${reportedItemId}`);
 
