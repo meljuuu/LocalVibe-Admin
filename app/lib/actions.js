@@ -54,35 +54,48 @@ export const deleteUser = async (formData)=>{
 }
 
 export const updateUser = async (formData) => {
-    const {id, userName, email, password, name, accountType} = 
-    Object.fromEntries(formData);
+    const { id, userName, email, password, name, accountType } =
+        Object.fromEntries(formData);
 
     try {
-        connectToDB();
+        connectToDB(); // Ensure that DB connection is successfully established
 
+        // Prepare fields to update
         const updateFields = {
             userName,
             email,
             password,
             name,
             accountType,
-        }
+        };
+
+        // Remove empty or undefined fields
         Object.keys(updateFields).forEach(
-            (key)=>
-                (updateFields[key]==="" || undefined) && delete updateFields[key]
+            (key) =>
+                (updateFields[key] === "" || updateFields[key] === undefined) &&
+                delete updateFields[key]
         );
 
-        await User.findByIdAndUpdate(id, updateFields);
+        // Perform the update in the database
+        const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true });
 
-    }catch(err){
-        console.log(err)
-        throw new Error("failed to update user!");
+        // Ensure the update was successful
+        if (!updatedUser) {
+            throw new Error("User not found or update failed.");
+        }
+
+        // Revalidate the path (if applicable)
+        revalidatePath("/dashboard/users");
+
+        return { success: true };
+    } catch (err) {
+        // Log the actual error for debugging
+        console.error("Error updating user:", err);
+
+        // Rethrow a more descriptive error message
+        throw new Error("Failed to update user! " + err.message);
     }
-
-    revalidatePath("/dashboard/users")
-    permanentRedirect("/dashboard/users")
-
-}
+};
 
 export const addAdmin = async (formData) => {
     const { username, email, password, isAdmin, isActive, phone, address } = Object.fromEntries(formData);
