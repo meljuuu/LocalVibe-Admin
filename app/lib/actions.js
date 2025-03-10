@@ -60,7 +60,6 @@ export const updateUser = async (formData) => {
     try {
         connectToDB(); // Ensure that DB connection is successfully established
 
-        // Prepare fields to update
         const updateFields = {
             userName,
             email,
@@ -79,8 +78,12 @@ export const updateUser = async (formData) => {
         // Perform the update in the database
         const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true });
 
+        // Log the result of the update operation
+        console.log("Updated User:", updatedUser);
+
         // Ensure the update was successful
         if (!updatedUser) {
+            console.log("No user found with the provided ID or the update failed.");
             throw new Error("User not found or update failed.");
         }
 
@@ -91,11 +94,10 @@ export const updateUser = async (formData) => {
     } catch (err) {
         // Log the actual error for debugging
         console.error("Error updating user:", err);
-
-        // Rethrow a more descriptive error message
         throw new Error("Failed to update user! " + err.message);
     }
 };
+
 
 export const addAdmin = async (formData) => {
     const { username, email, password, isAdmin, isActive, phone, address } = Object.fromEntries(formData);
