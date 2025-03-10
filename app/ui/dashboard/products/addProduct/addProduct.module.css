@@ -39,3 +39,37 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
+    .container {
+      padding: 20px;
+    }
+  
+    .formContainer {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  
+    .button {
+      padding: 10px 20px;
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .button:hover {
+      background-color: #005bb5;
+    }

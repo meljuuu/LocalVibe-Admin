@@ -9,8 +9,6 @@ const SingleAdminPage = async ({ params }) => {
   const { id } = params;
   const admin = await fetchAdmin(id);
 
-  const decryptedEmail = decryptData(admin.email);
-
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>

@@ -3,9 +3,9 @@ import styles from "../../ui/dashboard/products/products.module.css";
 import Search from "../../ui/dashboard/search/search";
 import Pagination from "../../ui/dashboard/pagination/pagination";
 import { fetchReports, fetchUser } from "../../lib/data";
-import DeleteButton from "./DeleteButton"; // Import the client component
+import DeleteButton from "./DeleteButton";
 
-const Productspage = async ({ searchParams, onDeleteSuccess }) => {
+const Productspage = async ({ searchParams }) => {
     const q = searchParams?.q || "";
     const page = searchParams?.page || 1;
     const { count, reports } = await fetchReports(q, page);
@@ -44,7 +44,6 @@ const Productspage = async ({ searchParams, onDeleteSuccess }) => {
                             <td>{report.reportCount}</td>
                             <td>{users[index]?.name}</td>
                             <td>{report.reportTitle}</td>
-
                             <td>
                                 <div className={styles.buttons}>
                                     <Link href={`/dashboard/products/${report.id}`}>
@@ -55,7 +54,6 @@ const Productspage = async ({ searchParams, onDeleteSuccess }) => {
                                     <DeleteButton
                                         reportId={report.id}
                                         reportedItemId={report.reportedItemId}
-                                        onDeleteSuccess={onDeleteSuccess}
                                     />
                                 </div>
                             </td>

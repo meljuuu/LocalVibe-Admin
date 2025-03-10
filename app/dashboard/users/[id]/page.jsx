@@ -7,7 +7,6 @@ import Image from 'next/image';
 const SingleUserPage = async ({ params }) => {
     const { id } = params;
     const user = await fetchUser(id); // Fetch user data server-side
-    const decryptedEmail = decryptData(user.email); // Decrypt email
     console.log(user.avatar.url || "/noavatar.png"); // Log the image URL
 
     return (
