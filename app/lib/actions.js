@@ -193,11 +193,21 @@ export const updateAdmin = async (formData) => {
 }
 
 export const deleteReport = async (formData) => {
-    const { id, reportedItemId } = Object.fromEntries(formData);
+    // Check if formData is a FormData object
+    let formEntries;
+    if (formData instanceof FormData) {
+        // If formData is FormData, use Object.fromEntries
+        formEntries = Object.fromEntries(formData.entries());
+    } else {
+        // If formData is already an object, directly use it
+        formEntries = formData;
+    }
+
+    const { id, reportedItemId } = formEntries;
     console.log(`Attempting to delete report with ID: ${id} and reportedItemId: ${reportedItemId}`);
 
     try {
-        connectToDB();
+        await connectToDB();
         console.log("Database connection established.");
 
         // Delete the post if the reportedItemId matches
@@ -218,11 +228,13 @@ export const deleteReport = async (formData) => {
             console.log(`No report found with ID: ${id}.`);
         }
 
+        // Revalidate and redirect as needed
+        revalidatePath("/dashboard/products");  // Trigger path revalidation for dynamic content
+        permanentRedirect("/dashboard/products");  // Permanently redirect to the products page
+
+        return { success: true };  // Return success status instead of redirecting directly
     } catch (err) {
         console.log("Error occurred during deletion:", err);
-        throw new Error("Failed to delete report!");
+        return { success: false, error: err.message };  // Return error status in case of failure
     }
-
-    revalidatePath("/dashboard/products");
-    permanentRedirect("/dashboard/products");
 };
