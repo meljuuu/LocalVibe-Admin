@@ -1,39 +1,29 @@
-import { updateUser } from "@/app/lib/actions";
-import { fetchUser } from "@/app/lib/data";
-import styles from "@/app/ui/dashboard/users/singleUser/singleUser.module.css";
-import Image from "next/image";
-import { decryptData } from "@/app/utils/encryption";
-
+import { fetchUser } from "../../../lib/data";
+import { decryptData } from "../../../utils/encryption";
+import UserForm from "./UserForm"; // Import the form component
+import styles from "../../../ui/dashboard/users/singleUser/singleUser.module.css";
+import Image from 'next/image';
+// Server-side fetching directly within the component
 const SingleUserPage = async ({ params }) => {
     const { id } = params;
-    const user = await fetchUser(id);
-
-    const decryptedEmail = decryptData(user.email);
+    const user = await fetchUser(id); // Fetch user data server-side
+    const decryptedEmail = decryptData(user.email); // Decrypt email
+    console.log(user.avatar.url || "/noavatar.png"); // Log the image URL
 
     return (
         <div className={styles.container}>
             <div className={styles.infoContainer}>
                 <div className={styles.imgContainer}>
-                    <Image src={user.img || "/noavatar.png"} alt="" fill />
-                </div>
+                    <Image
+                        src={user.avatar.url || "/noavatar.png"}
+                        alt="User Avatar"
+                        width={300}  // Set a fixed width for the image
+                        height={300} // Set a fixed height for the image
+                    />                </div>
                 {user.name}
             </div>
-            <div className={styles.formContainer}>
-                <form action={updateUser} className={styles.form}>
-                    <input type="hidden" name="id" value={user.id} />
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder={user.userName} />
-                    <label>Email</label>
-                    <input type="email" name="email" placeholder={decryptedEmail} />
-                    <label>Password</label>
-                    <input type="password" name="password" />
-                    <label>Name</label>
-                    <input type="text" name="name" placeholder={user.name} />
-                    <label>Account type</label>
-                    <textarea type="text" name="acctype" placeholder={user.accountType} />
-                    <button>Update</button>
-                </form>
-            </div>
+
+            <UserForm user={user} /> {/* Pass user data to the form component */}
         </div>
     );
 };

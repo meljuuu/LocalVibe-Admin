@@ -1,0 +1,40 @@
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Align the modal content to the center vertically and horizontally */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    /* Center the text inside the modal */
+}
+
+.modal-content p {
+    color: black;
+    /* Set text color to black */
+}
+
+.close-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    /* Blue background for the button */
+    color: white;
+    /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

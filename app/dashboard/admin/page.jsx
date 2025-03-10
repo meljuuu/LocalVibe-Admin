@@ -1,11 +1,11 @@
-import { deleteAdmin } from "@/app/lib/actions";
-import { fetchAdmins } from "@/app/lib/data";
-import Pagination from "@/app/ui/dashboard/pagination/pagination";
-import Search from "@/app/ui/dashboard/search/search";
-import styles from "@/app/ui/dashboard/users/users.module.css";
+import { deleteAdmin } from "../../lib/actions";
+import { fetchAdmins } from "../../lib/data";
+import Pagination from "../../ui/dashboard/pagination/pagination";
+import Search from "../../ui/dashboard/search/search";
+import styles from "../../ui/dashboard/users/users.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { decryptData } from "@/app/utils/encryption";
+import { decryptData } from "../../utils/encryption";
 
 const AdminsPage = async ({ searchParams }) => {
     const q = searchParams?.q || "";

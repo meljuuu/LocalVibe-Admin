@@ -228,13 +228,11 @@ export const deleteReport = async (formData) => {
             console.log(`No report found with ID: ${id}.`);
         }
 
-        // Revalidate and redirect as needed
-        revalidatePath("/dashboard/products");  // Trigger path revalidation for dynamic content
-        permanentRedirect("/dashboard/products");  // Permanently redirect to the products page
-
-        return { success: true };  // Return success status instead of redirecting directly
     } catch (err) {
         console.log("Error occurred during deletion:", err);
-        return { success: false, error: err.message };  // Return error status in case of failure
+        throw new Error("Failed to delete report!");
     }
+
+    revalidatePath("/dashboard/products");
+    permanentRedirect("/dashboard/products");
 };

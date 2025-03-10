@@ -1,8 +1,8 @@
-import { updateAdmin } from "@/app/lib/actions";
-import { fetchAdmin } from "@/app/lib/data";
-import styles from "@/app/ui/dashboard/users/singleUser/singleUser.module.css";
+import { updateAdmin } from "../../../lib/actions";
+import { fetchAdmin } from "../../../lib/data";
+import styles from "../../../ui/dashboard/users/singleUser/singleUser.module.css";
 import Image from "next/image";
-import { decryptData } from "@/app/utils/encryption";
+import { decryptData } from "../../../utils/encryption";
 
 const SingleAdminPage = async ({ params }) => {
   

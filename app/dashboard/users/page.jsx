@@ -1,11 +1,11 @@
-import { deleteUser } from "@/app/lib/actions"
-import { fetchUsers } from "@/app/lib/data"
-import Pagination from "@/app/ui/dashboard/pagination/pagination"
-import Search from "@/app/ui/dashboard/search/search"
-import styles from "@/app/ui/dashboard/users/users.module.css"
+import { deleteUser } from "../../lib/actions"
+import { fetchUsers } from "../../lib/data"
+import Pagination from "../../ui/dashboard/pagination/pagination"
+import Search from "../../ui/dashboard/search/search"
+import styles from "../../ui/dashboard/users/users.module.css"
 import Image from "next/image"
 import Link from "next/link"
-import { decryptData } from "@/app/utils/encryption"
+import { decryptData } from "../../utils/encryption"
 
 const Userspage = async ({searchParams}) => {
 

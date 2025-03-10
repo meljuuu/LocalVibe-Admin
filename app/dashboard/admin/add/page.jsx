@@ -1,5 +1,5 @@
-import { addAdmin } from "@/app/lib/actions";
-import styles from "@/app/ui/dashboard/users/addUser/addUser.module.css";
+import { addAdmin } from "../../../lib/actions";
+import styles from "../../../ui/dashboard/users/addUser/addUser.module.css";
 
 const AddAdminPage = () => {
     return (
