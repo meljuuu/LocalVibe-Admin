@@ -2,7 +2,7 @@
 
 import styles from "../../../ui/dashboard/products/singleProduct/singleProduct.module.css";
 import { fetchReport } from "../../../lib/data";
-import DeleteButton from "../DeleteButton";  // Import the DeleteButton component
+import DeleteButton from "../deleteButton";  // Import the DeleteButton component
 
 const SingleProductPage = async ({ params }) => {
     const { id } = params;

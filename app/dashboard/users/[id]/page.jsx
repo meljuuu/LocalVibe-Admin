@@ -1,6 +1,5 @@
 import { fetchUser } from "../../../lib/data";
-import { decryptData } from "../../../utils/encryption";
-import UserForm from "./UserForm"; // Import the form component
+import UserForm from "./userForm"; 
 import styles from "../../../ui/dashboard/users/singleUser/singleUser.module.css";
 import Image from 'next/image';
 // Server-side fetching directly within the component

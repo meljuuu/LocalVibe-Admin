@@ -3,7 +3,7 @@ import styles from "../../ui/dashboard/products/products.module.css";
 import Search from "../../ui/dashboard/search/search";
 import Pagination from "../../ui/dashboard/pagination/pagination";
 import { fetchReports, fetchUser } from "../../lib/data";
-import DeleteButton from "./DeleteButton";
+import DeleteButton from "./deleteButton";
 
 const Productspage = async ({ searchParams }) => {
     const q = searchParams?.q || "";

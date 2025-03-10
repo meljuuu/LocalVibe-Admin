@@ -2,7 +2,6 @@ import { updateAdmin } from "../../../lib/actions";
 import { fetchAdmin } from "../../../lib/data";
 import styles from "../../../ui/dashboard/users/singleUser/singleUser.module.css";
 import Image from "next/image";
-import { decryptData } from "../../../utils/encryption";
 
 const SingleAdminPage = async ({ params }) => {
   

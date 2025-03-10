@@ -46,13 +46,6 @@ const UserForm = ({ user }) => {
                     value={formData.username}
                     onChange={handleChange}
                 />
-                <label>Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
                 <label>Password</label>
                 <input
                     type="password"

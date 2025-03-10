@@ -37,21 +37,41 @@ export const addUser = async (formData)=>{
     permanentRedirect("/dashboard/users")
 }
 
-export const deleteUser = async (formData)=>{
-    const { id } =
-    Object.fromEntries(formData);
+export const deleteUser = async (formData) => {
+    let formEntries;
 
-    try {
-    connectToDB();
-    await User.findByIdAndDelete(id); 
-    }catch(err){
-        console.log(err)
-        throw new Error("failed to delete user!");
+    // Check if formData is an instance of FormData
+    if (formData instanceof FormData) {
+        // If formData is FormData, use Object.fromEntries to convert to an object
+        formEntries = Object.fromEntries(formData.entries());
+    } else {
+        // If formData is already an object, use it directly
+        formEntries = formData;
     }
 
-    revalidatePath("/dashboard/users")
-    
-}
+    const { id } = formEntries;
+    console.log(`Attempting to delete user with ID: ${id}`);
+
+    try {
+        await connectToDB();
+        console.log("Database connection established.");
+
+        // Proceed with deletion logic
+        const result = await User.findByIdAndDelete(id);
+        if (result) {
+            console.log(`User with ID: ${id} deleted successfully.`);
+        } else {
+            console.log(`No user found with ID: ${id}.`);
+        }
+    } catch (err) {
+        console.log("Error occurred during deletion:", err);
+        throw new Error("Failed to delete user!");
+    }
+
+    revalidatePath("/dashboard/users");
+    permanentRedirect("/dashboard/users");
+};
+
 
 export const updateUser = async (formData) => {
     const { id, userName, email, password, name, accountType } =
