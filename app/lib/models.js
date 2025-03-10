@@ -2,49 +2,123 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    userName: {
-      type: String,
-      required: true,
-      unique: true,
-      min: 3,
-      max: 20,
-    },
     name: {
       type: String,
-      required: true,
-      unique: true,
-      min: 3,
-      max: 20,
+      required: [true, "Please enter your Name"],
+    },
+    userName: {
+      type: String,
+    },
+    bio: {
+      type: String,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Please enter your email"],
       unique: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
+
+    accountType: {
+      type: String,
+      enum: ["admin", "personal", "business", "prembusiness"],
+      default: "personal",
+      required: [true, "Please specify the account type"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Please enter your password"],
     },
-    img: {
-      type: String,
+    latitude: {
+      type: Number,
+      default: null,
     },
-    accountType: {
-      type: String,
-      required: true,
+    longitude: {
+      type: Number,
+      default: null,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    avatar: {
+      public_id: {
+        type: String,
+        required: [true, "Please upload one profile picture!"],
+      },
+      url: {
+        type: String,
+        required: [true, "Please upload one profile picture!"],
+      },
     },
-    phone: {
-      type: String,
+    coverPhoto: {
+      public_id: {
+        type: String,
+        default: null,
+      },
+      url: {
+        type: String,
+        default: null,
+      },
     },
-    address: {
-      type: String,
-    },
+    followers: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      },
+    ],
+    following: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      },
+    ],
+    interactions: [
+      {
+        post_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Post",
+          required: true,
+        },
+        score: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
+    share: [
+      {
+        post_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Post",
+          required: true,
+        },
+      },
+    ],
+    similarUsers: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        similarityScore: {
+          type: Number,
+          default: 0,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
+
 
 
 const reportSchema = new mongoose.Schema(
