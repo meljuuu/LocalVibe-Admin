@@ -57,8 +57,18 @@ export const updateUser = async (formData) => {
     const { id, userName, email, password, name, accountType } =
         Object.fromEntries(formData);
 
+    // Log the form data to ensure we're getting the correct fields
+    console.log("Received formData:", formData);
+    console.log("Extracted fields:", { id, userName, email, password, name, accountType });
+
     try {
-        connectToDB(); // Ensure that DB connection is successfully established
+        // Log the value of 'id' before attempting the database operation
+        if (!id || id.trim() === "") {
+            console.error("Invalid ID:", id);  // Log if the id is invalid
+            throw new Error("Invalid user ID");
+        }
+
+        connectToDB();  // Ensure that DB connection is successfully established
 
         const updateFields = {
             userName,
@@ -74,6 +84,9 @@ export const updateUser = async (formData) => {
                 (updateFields[key] === "" || updateFields[key] === undefined) &&
                 delete updateFields[key]
         );
+
+        // Log the final fields that will be updated
+        console.log("Final update fields:", updateFields);
 
         // Perform the update in the database
         const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true });
@@ -97,6 +110,7 @@ export const updateUser = async (formData) => {
         throw new Error("Failed to update user! " + err.message);
     }
 };
+
 
 
 export const addAdmin = async (formData) => {

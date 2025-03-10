@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchTotalUsers } from "@/app/lib/data";
+import { fetchTotalUsers } from "../../lib/data";
 
 export async function GET() {
     try {
