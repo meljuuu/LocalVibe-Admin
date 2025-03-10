@@ -24,8 +24,6 @@ const SingleAdminPage = async ({ params }) => {
           <input type="hidden" name="id" value={admin.id}/>
           <label>Username</label>
           <input type="text" name="username" placeholder={admin.username} />
-          <label>Email</label>
-          <input type="email" name="email" placeholder={decryptedEmail} />
           <label>Password</label>
           <input type="password" name="password" />
           <label>Phone</label>
