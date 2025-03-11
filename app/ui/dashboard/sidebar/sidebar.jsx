@@ -4,11 +4,7 @@ import styles from "./sidebar.module.css"
 import {
     MdDashboard,
     MdSupervisedUserCircle,
-    MdWork,
     MdAnalytics,
-    MdPeople,
-    MdOutlineSettings,
-    MdHelpCenter,
     MdLogout,
   } from "react-icons/md";
 const menuItems = [

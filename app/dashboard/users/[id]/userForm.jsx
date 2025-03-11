@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { updateUser } from "../../../lib/actions";
 import styles from "../../../ui/dashboard/users/singleUser/singleUser.module.css";
+import Modal from "./modal"; // Import Modal component
 
 const UserForm = ({ user }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,9 @@ const UserForm = ({ user }) => {
         name: user.name || '',
         acctype: user.accountType || '',
     });
+
+    const [showModal, setShowModal] = useState(false); // State to control modal visibility
+    const [modalMessage, setModalMessage] = useState(""); // State to store the modal message
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,10 +33,27 @@ const UserForm = ({ user }) => {
             Object.entries(formData).forEach(([key, value]) => {
                 formDataObj.append(key, value);
             });
-            await updateUser(formDataObj);
+
+            // Call updateUser and handle the response
+            const result = await updateUser(formDataObj);
+
+            if (result.success) {
+                setShowModal(true);
+                setModalMessage("Update Successful!"); // Set a success message for the modal
+            } else {
+                setShowModal(true);
+                setModalMessage("Update Failed!");
+            }
+
         } catch (error) {
             console.error(error);
+            setShowModal(true);
+            setModalMessage("An error occurred during the update.");
         }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false); // Hide modal
     };
 
     return (
@@ -68,6 +89,14 @@ const UserForm = ({ user }) => {
                 />
                 <button type="submit">Update</button>
             </form>
+
+            {/* Show modal on successful or failed update */}
+            {showModal && (
+                <Modal onClose={handleCloseModal}>
+                    <h2>{modalMessage}</h2> {/* Display message based on success or failure */}
+                    <p>{modalMessage === "Update Successful!" ? "The user information has been updated successfully." : "There was an issue with updating the user."}</p>
+                </Modal>
+            )}
         </div>
     );
 };
