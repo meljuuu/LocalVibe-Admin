@@ -13,17 +13,22 @@
 
 .modal-content {
     background: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     max-width: 500px;
     width: 100%;
     text-align: center;
     /* Center the text inside the modal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Add subtle shadow for better visibility */
 }
 
-.modal-content p {
-    color: black;
-    /* Set text color to black */
+.modal-content h1 {
+    color: #000;
+    /* Green color for success */
+    font-size: 24px;
+    font-weight: bold;
+    /* Make the success message bold and bigger */
 }
 
 .close-button {
@@ -37,4 +42,14 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+}
+
+.close-button:hover {
+    background-color: #0056b3;
+    /* Darker blue when hovered */
+}
+
+.modal-content p {
+    color: black;
+    /* Set text color to black for additional content if needed */
 }
