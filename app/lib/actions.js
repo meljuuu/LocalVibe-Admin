@@ -74,14 +74,17 @@ export const deleteUser = async (formData) => {
 
 
 export const updateUser = async (formData) => {
-    const { id, userName, email, password, name, accountType } = Object.fromEntries(formData);
+    const { id, userName, email, password, name, accountType } =
+        Object.fromEntries(formData);
 
+    // Log the form data to ensure we're getting the correct fields
     console.log("Received formData:", formData);
     console.log("Extracted fields:", { id, userName, email, password, name, accountType });
 
     try {
+        // Log the value of 'id' before attempting the database operation
         if (!id || id.trim() === "") {
-            console.error("Invalid ID:", id);
+            console.error("Invalid ID:", id);  // Log if the id is invalid
             throw new Error("Invalid user ID");
         }
 
@@ -95,25 +98,34 @@ export const updateUser = async (formData) => {
             accountType,
         };
 
+        // Remove empty or undefined fields
         Object.keys(updateFields).forEach(
-            (key) => (updateFields[key] === "" || updateFields[key] === undefined) && delete updateFields[key]
+            (key) =>
+                (updateFields[key] === "" || updateFields[key] === undefined) &&
+                delete updateFields[key]
         );
 
+        // Log the final fields that will be updated
         console.log("Final update fields:", updateFields);
 
+        // Perform the update in the database
         const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true });
 
+        // Log the result of the update operation
         console.log("Updated User:", updatedUser);
 
+        // Ensure the update was successful
         if (!updatedUser) {
             console.log("No user found with the provided ID or the update failed.");
             throw new Error("User not found or update failed.");
         }
 
-        // You can return success and the updated user object
-        return { success: true, updatedUser };
+        // Revalidate the path (if applicable)
+        revalidatePath("/dashboard/users");
 
+        return { success: true };
     } catch (err) {
+        // Log the actual error for debugging
         console.error("Error updating user:", err);
         throw new Error("Failed to update user! " + err.message);
     }

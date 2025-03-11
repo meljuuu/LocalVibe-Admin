@@ -59,13 +59,14 @@ export const fetchReports = async (q, page) => {
 };
 
 export const fetchUser = async (id) => {
-try {
-    await connectToDB();
-    const user = await User.findById(id);
-    return user;
+    try {
+        await connectToDB();
+        const user = await User.findById(id);
+        console.log(user); // Log user data to see if it contains the 'name' field
+        return user;
     } catch (err) {
-    console.log(err);
-    throw new Error("Failed to fetch user!");
+        console.log(err);
+        throw new Error("Failed to fetch user!");
     }
 };
 
