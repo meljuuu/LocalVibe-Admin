@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "../../lib/utils";
-import { User } from "../../lib/models";
+import { Report } from "../../lib/models";
 
 export async function GET() {
   try {
@@ -11,10 +11,10 @@ export async function GET() {
     const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
     // Get total count
-    const totalAccounts = await User.countDocuments();
+    const totalCount = await Report.countDocuments();
 
     // Get last week's count
-    const lastWeekCount = await User.countDocuments({
+    const lastWeekCount = await Report.countDocuments({
       createdAt: { $gte: lastWeek },
     });
 
@@ -22,19 +22,19 @@ export async function GET() {
     const percentageChange =
       lastWeekCount === 0
         ? 100
-        : Math.round(((totalAccounts - lastWeekCount) / lastWeekCount) * 100);
+        : Math.round(((totalCount - lastWeekCount) / lastWeekCount) * 100);
 
     return NextResponse.json(
       {
-        totalAccounts,
+        count: totalCount,
         percentageChange,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error fetching total accounts:", error);
+    console.error("Error fetching total reports:", error);
     return NextResponse.json(
-      { message: "Failed to fetch total accounts" },
+      { message: "Failed to fetch total reports" },
       { status: 500 }
     );
   }
