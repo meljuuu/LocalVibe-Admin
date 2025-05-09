@@ -1,28 +1,35 @@
 .mainContainer {
-  width: 100%;
   display: flex;
   gap: 20px;
-  cursor: pointer;
+  width: 100%;
 }
 
 .container {
-  background-color: var(--bgSoft);
+  flex: 1;
+  background: var(--bgSoft);
   padding: 20px;
   border-radius: 10px;
   display: flex;
   gap: 20px;
   cursor: pointer;
-  width: 100%;
+  transition: all 0.3s ease;
 }
 
 .container:hover {
-  background-color: #2e374a;
+  background: var(--bgHover);
+  transform: translateY(-2px);
 }
 
 .texts {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--textSoft);
 }
 
 .number {
@@ -30,16 +37,20 @@
   font-weight: 500;
 }
 
+.subtitle {
+  font-size: 14px;
+  color: var(--textSoft);
+}
+
 .detail {
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .positive {
-  color: lime;
+  color: #afec1f;
 }
 
 .negative {
   color: #ff4d4d;
-  font-weight: bold;
 }

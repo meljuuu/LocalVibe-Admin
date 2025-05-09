@@ -10,23 +10,35 @@ export async function GET() {
     const now = new Date();
     const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-    // Get total count
+    // Get total count (all time)
     const totalAccounts = await User.countDocuments();
 
-    // Get last week's count
-    const lastWeekCount = await User.countDocuments({
+    // Get count for last week
+    const weeklyAccounts = await User.countDocuments({
       createdAt: { $gte: lastWeek },
+    });
+
+    // Get count for previous week
+    const twoWeeksAgo = new Date(lastWeek.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const previousWeekCount = await User.countDocuments({
+      createdAt: {
+        $gte: twoWeeksAgo,
+        $lt: lastWeek,
+      },
     });
 
     // Calculate percentage change
     const percentageChange =
-      lastWeekCount === 0
+      previousWeekCount === 0
         ? 100
-        : Math.round(((totalAccounts - lastWeekCount) / lastWeekCount) * 100);
+        : Math.round(
+            ((weeklyAccounts - previousWeekCount) / previousWeekCount) * 100
+          );
 
     return NextResponse.json(
       {
         totalAccounts,
+        weeklyAccounts,
         percentageChange,
       },
       { status: 200 }

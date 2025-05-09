@@ -6,7 +6,9 @@ import styles from "./card.module.css";
 
 const Card = () => {
   const [totalUsers, setTotalUsers] = useState(0);
+  const [weeklyUsers, setWeeklyUsers] = useState(0);
   const [totalReports, setTotalReports] = useState(0);
+  const [weeklyReports, setWeeklyReports] = useState(0);
   const [usersPercentage, setUsersPercentage] = useState(0);
   const [reportsPercentage, setReportsPercentage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,13 +22,15 @@ const Card = () => {
         if (!usersRes.ok) throw new Error("Failed to fetch users data");
         const usersData = await usersRes.json();
         setTotalUsers(usersData.totalAccounts);
+        setWeeklyUsers(usersData.weeklyAccounts);
         setUsersPercentage(usersData.percentageChange);
 
         // Fetch reports count
         const reportsRes = await fetch("/api/reports");
         if (!reportsRes.ok) throw new Error("Failed to fetch reports data");
         const reportsData = await reportsRes.json();
-        setTotalReports(reportsData.count);
+        setTotalReports(reportsData.totalCount);
+        setWeeklyReports(reportsData.weeklyCount);
         setReportsPercentage(reportsData.percentageChange);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -56,8 +60,7 @@ const Card = () => {
         <MdSupervisedUserCircle size={24} />
         <div className={styles.texts}>
           <span className={styles.title}>Total Users</span>
-          <span className={styles.number}>{totalUsers}</span>{" "}
-          {/* ✅ Display actual count */}
+          <span className={styles.number}>{totalUsers}</span>
           <span className={styles.detail}>
             <span
               className={
@@ -75,8 +78,7 @@ const Card = () => {
         <MdSupervisedUserCircle size={24} />
         <div className={styles.texts}>
           <span className={styles.title}>Total Reports</span>
-          <span className={styles.number}>{totalReports}</span>{" "}
-          {/* ✅ Display actual count */}
+          <span className={styles.number}>{totalReports}</span>
           <span className={styles.detail}>
             <span
               className={
