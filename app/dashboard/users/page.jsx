@@ -49,7 +49,7 @@ const Userspage = async ({ searchParams }) => {
                                 </td>
                                 <td>{decryptedEmail}</td> {/* Use the decrypted email */}
                                 <td>{user.createdAt?.toString().slice(4, 16)}</td>
-                                <td>{user.isActive ? "Active" : "Inactive"}</td>
+                                <td>{"Active"}</td>
                                 <td>
                                     <div className={styles.buttons}>
                                         <Link href={`/dashboard/users/${user.id}`}>
