@@ -1,23 +1,35 @@
 import { User, Report, Admin, Pin } from "./models";
 import { connectToDB } from "./utils";
 
-export const fetchUsers = async (q, page) => {
+export const fetchUsers = async (q, page, accountType = "all") => {
   const regex = new RegExp(q, "i");
-
-  const ITEM_PER_PAGE = 7;
+  const ITEM_PER_PAGE = 10;
 
   try {
     await connectToDB();
-    const count = await User.find({
-      $or: [{ username: { $regex: regex } }, { name: { $regex: regex } }],
-    }).countDocuments();
 
-    const users = await User.find({
+    // Build the query based on accountType
+    let query = {
       $or: [{ username: { $regex: regex } }, { name: { $regex: regex } }],
-    })
+    };
+
+    if (accountType !== "all") {
+      query.accountType = accountType;
+    }
+
+    const count = await User.find(query).countDocuments();
+    const totalPages = Math.ceil(count / ITEM_PER_PAGE);
+
+    const users = await User.find(query)
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1));
-    return { count, users };
+
+    return {
+      count,
+      users,
+      totalPages,
+      currentPage: parseInt(page),
+    };
   } catch (err) {
     console.log(err);
     throw new Error("Failed to fetch users!");
