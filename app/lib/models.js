@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     resetPasswordToken: String,
@@ -119,13 +119,11 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-
 const reportSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to User model
+      ref: "User",
       required: true,
     },
     reportedItemId: {
@@ -346,11 +344,131 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const pinSchema = new mongoose.Schema(
+  {
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    businessName: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    latitude: {
+      type: Number,
+      default: null,
+    },
+    longitude: {
+      type: Number,
+      default: null,
+    },
+    contactInfo: {
+      phone: String,
+      email: String,
+      website: String,
+    },
+    image: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
+    visitors: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        created_at: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    reviews: [
+      {
+        pinId: {
+          type: String,
+          required: true,
+        },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+        image: {
+          type: String,
+          required: true,
+        },
+        reviewText: {
+          type: String,
+          required: true,
+        },
+        ratings: {
+          type: Number,
+          required: true,
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    address: {
+      type: String,
+      default: "",
+    },
+    proofOfBusinessImage: {
+      type: String,
+      default: "",
+    },
+    approved: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
-export const User = mongoose.models.User || mongoose.model("User", userSchema);
+// Initialize models
+let User, Report, Admin, Post, Pin;
 
-export const Report = mongoose.models.Report || mongoose.model("Report", reportSchema);
+try {
+  User = mongoose.models.User || mongoose.model("User", userSchema);
+  Report = mongoose.models.Report || mongoose.model("Report", reportSchema);
+  Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
+  Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+  Pin = mongoose.models.Pin || mongoose.model("Pin", pinSchema);
+} catch (error) {
+  console.error("Error initializing models:", error);
+}
 
-export const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
-
-export const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+export { User, Report, Admin, Post, Pin };

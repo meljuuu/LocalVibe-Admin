@@ -3,6 +3,8 @@ import Chart from "../ui/dashboard/chart/chart";
 import styles from "../ui/dashboard/dashboard.module.css";
 import Rightbar from "../ui/dashboard/rightbar/rightbar";
 import Transactions from "../ui/dashboard/transactions/transactions";
+import UserMap from "../ui/dashboard/userMap/userMap";
+
 const Dashboard = () => {
   return (
     <div className={styles.wrapper}>
@@ -10,6 +12,7 @@ const Dashboard = () => {
         <div className={styles.cards}>
           <Card />
         </div>
+        <UserMap />
         <Transactions />
         <Chart />
       </div>

@@ -8,66 +8,129 @@ import Image from "next/image";
 import { decryptData } from "../../utils/encryption";
 
 const Userspage = async ({ searchParams }) => {
-    const q = searchParams?.q || "";
-    const page = searchParams?.page || 1;
-    const { count, users } = await fetchUsers(q, page);
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+  const accountType = searchParams?.accountType || "all";
+  const ITEM_PER_PAGE = 10;
+  const { count, users, totalPages, currentPage } = await fetchUsers(
+    q,
+    page,
+    accountType
+  );
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.top}>
-                <Search placeholder="Search user..." />
-                <Link href="/dashboard/users/add">
-                    <button className={styles.addButton}>Add Admin</button>
-                </Link>
-            </div>
-            <table className={styles.table}>
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Email</td>
-                        <td>Created At</td>
-                        <td>Status</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user) => {
-                        const decryptedEmail = decryptData(user.email); // Decrypt the email here
-                        return (
-                            <tr key={user.id}>
-                                <td>
-                                    <div className={styles.user}>
-                                        <Image
-                                            src={user.avatar.url || "/noavatar.png"}
-                                            alt=""
-                                            width={40}
-                                            height={40}
-                                            className={styles.userImage}
-                                        />
-                                        {user.name}
-                                    </div>
-                                </td>
-                                <td>{decryptedEmail}</td> {/* Use the decrypted email */}
-                                <td>{user.createdAt?.toString().slice(4, 16)}</td>
-                                <td>{"Active"}</td>
-                                <td>
-                                    <div className={styles.buttons}>
-                                        <Link href={`/dashboard/users/${user.id}`}>
-                                            <button className={`${styles.button} ${styles.view}`}>
-                                                View
-                                            </button>
-                                        </Link>
-                                        <DeleteButton userId={user.id} />
-                                    </div>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-            <Pagination count={count} />
+  const getAccountTypeClass = (type) => {
+    if (!type) return styles.other;
+    return styles[type.toLowerCase()] || styles.other;
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.top}>
+        <div className={styles.filterContainer}>
+          <Search placeholder="Search user..." />
+          <div className={styles.accountTypeFilters}>
+            <Link href={`/dashboard/users?accountType=all`}>
+              <button
+                className={`${styles.filterButton} ${
+                  accountType === "all" ? styles.active : ""
+                }`}
+              >
+                All
+              </button>
+            </Link>
+            <Link href={`/dashboard/users?accountType=personal`}>
+              <button
+                className={`${styles.filterButton} ${
+                  accountType === "personal" ? styles.active : ""
+                }`}
+              >
+                Personal
+              </button>
+            </Link>
+            <Link href={`/dashboard/users?accountType=business`}>
+              <button
+                className={`${styles.filterButton} ${
+                  accountType === "business" ? styles.active : ""
+                }`}
+              >
+                Business
+              </button>
+            </Link>
+          </div>
         </div>
-    );
+        <Link href="/dashboard/users/add">
+          <button className={styles.addButton}>Add Admin</button>
+        </Link>
+      </div>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Created At</td>
+            <td>Account Type</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => {
+            const decryptedEmail = decryptData(user.email);
+            const userData = {
+              ...user.toObject(),
+              _id: user._id.toString(),
+            };
+            return (
+              <tr key={userData._id}>
+                <td>
+                  <div className={styles.user}>
+                    <Image
+                      src={userData.avatar?.url || "/noavatar.png"}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className={styles.userImage}
+                    />
+                    {userData.name}
+                  </div>
+                </td>
+                <td>{decryptedEmail}</td>
+                <td>{userData.createdAt?.toString().slice(4, 16)}</td>
+                <td>
+                  <span
+                    className={`${
+                      styles.accountTypeBadge
+                    } ${getAccountTypeClass(userData.accountType)}`}
+                  >
+                    {userData.accountType || "N/A"}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.buttons}>
+                    <Link href={`/dashboard/users/${userData._id}`}>
+                      <button className={`${styles.button} ${styles.view}`}>
+                        View
+                      </button>
+                    </Link>
+                    <DeleteButton userId={userData._id} />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className={styles.paginationInfo}>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <span>
+          Showing {Math.min(currentPage * ITEM_PER_PAGE, count)} of {count}{" "}
+          users
+        </span>
+      </div>
+      <Pagination count={count} />
+    </div>
+  );
 };
 
 export default Userspage;

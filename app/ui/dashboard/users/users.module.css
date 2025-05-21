@@ -1,61 +1,136 @@
-.container{
-    background-color: var(--bgSoft);
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-  }
-  
-  .top{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .addButton{
-    padding: 10px;
-    background-color: #5d57c9;
-    color: var(--text);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .table{
-    width: 100%;
-  }
-  
-  .table td{
-    padding: 10px;
-  }
-  
-  .user{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .userImage{
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .buttons{
-    display: flex;
-    gap: 10px;
-  }
-  
-  .button{
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: var(--text);
-    border: none;
-    cursor: pointer;
-  }
-  
-  .view{
-    background-color: teal;
-  }
-  
-  .delete{
-    background-color: crimson;
-  }
+.container {
+  background-color: var(--bgSoft);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accountTypeFilters {
+  display: flex;
+  gap: 10px;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  background-color: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--textSoft);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: var(--bgSoft);
+}
+
+.filterButton.active {
+  background-color: #5d57c9;
+  color: white;
+  border-color: #5d57c9;
+}
+
+.addButton {
+  padding: 10px;
+  background-color: #5d57c9;
+  color: var(--text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+}
+
+.table td {
+  padding: 10px;
+  text-align: center;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userImage {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+}
+
+.view {
+  background-color: teal;
+}
+
+.delete {
+  background-color: crimson;
+}
+
+.accountTypeBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.personal {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.business {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.other {
+  background-color: #f5f5f5;
+  color: #616161;
+}
+
+.paginationInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: var(--bg);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.paginationInfo span {
+  padding: 0.5rem;
+  background-color: var(--bgSoft);
+  border-radius: 0.3rem;
+}
