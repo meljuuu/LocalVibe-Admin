@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectToDB } from "../../../../lib/utils";
-import Pin from "../../../../lib/models";
+import { Pin } from "../../../../lib/models";
 
 export async function PUT(request, { params }) {
   try {

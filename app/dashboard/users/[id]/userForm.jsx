@@ -73,6 +73,32 @@ const UserForm = ({ user }) => {
     setShowModal(false);
   };
 
+  const handleApprovePin = async (pinId) => {
+    try {
+      const response = await fetch(`/api/pins/${pinId}/approve`, {
+        method: "PUT",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to approve pin");
+      }
+
+      // Update the local state to reflect the approval
+      setUserPins((prevPins) =>
+        prevPins.map((pin) =>
+          pin._id === pinId ? { ...pin, approved: true } : pin
+        )
+      );
+
+      setShowModal(true);
+      setModalMessage("Pin approved successfully!");
+    } catch (error) {
+      console.error("Error approving pin:", error);
+      setShowModal(true);
+      setModalMessage("Failed to approve pin. Please try again.");
+    }
+  };
+
   return (
     <div className={styles.formContainer}>
       <form onSubmit={handleUpdate} className={styles.form}>
@@ -174,6 +200,17 @@ const UserForm = ({ user }) => {
                     </div>
                   )}
                 </div>
+
+                {!pin.approved && (
+                  <div className={styles.approveButtonContainer}>
+                    <button
+                      className={styles.approveButton}
+                      onClick={() => handleApprovePin(pin._id)}
+                    >
+                      Approve Business
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
