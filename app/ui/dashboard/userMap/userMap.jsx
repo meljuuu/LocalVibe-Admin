@@ -29,7 +29,7 @@ const UserMap = () => {
     const fetchUsers = async () => {
       try {
         console.log("Fetching users..."); // Debug log
-        const response = await fetch("/api/users?limit=100");
+        const response = await fetch("/api/users");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

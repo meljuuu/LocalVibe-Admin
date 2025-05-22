@@ -11,9 +11,9 @@ const Transactions = () => {
   useEffect(() => {
     const fetchLatestUsers = async () => {
       try {
-        const response = await fetch("/api/users?limit=4"); // Fetch latest 4 users
+        const response = await fetch("/api/users"); // Remove the limit parameter
         const data = await response.json();
-        setUsers(data.users || []); // Ensure it doesn’t break if no users exist
+        setUsers((data.users || []).slice(0, 5)); // Slice to get only first 5 users
       } catch (error) {
         console.error("Error fetching users:", error);
       }
