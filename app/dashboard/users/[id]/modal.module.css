@@ -1,55 +1,56 @@
 .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Align the modal content to the center vertically and horizontally */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* Align the modal content to the center vertically and horizontally */
 }
 
 .modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-    /* Center the text inside the modal */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    /* Add subtle shadow for better visibility */
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  /* Center the text inside the modal */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  /* Add subtle shadow for better visibility */
 }
 
 .modal-content h1 {
-    color: #000;
-    /* Green color for success */
-    font-size: 24px;
-    font-weight: bold;
-    /* Make the success message bold and bigger */
+  color: #000;
+  /* Green color for success */
+  font-size: 24px;
+  font-weight: bold;
+  /* Make the success message bold and bigger */
 }
 
 .close-button {
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    /* Blue background for the button */
-    color: white;
-    /* White text */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #007bff;
+  /* Blue background for the button */
+  color: white;
+  /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .close-button:hover {
-    background-color: #0056b3;
-    /* Darker blue when hovered */
+  background-color: #0056b3;
+  /* Darker blue when hovered */
 }
 
 .modal-content p {
-    color: black;
-    /* Set text color to black for additional content if needed */
+  color: black;
+  /* Set text color to black for additional content if needed */
 }
