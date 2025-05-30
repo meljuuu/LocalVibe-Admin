@@ -20,78 +20,48 @@ export async function GET(request) {
     await connectToDB();
     console.log("Database connected successfully");
 
-    // Build the query to handle both old and new data structures with defaults
-    const query = {
-      $or: []
-    };
+    // Get all users first
+    const allUsers = await User.find()
+      .sort({ createdAt: -1 });
 
-    if (region) {
-      query.$or.push(
-        { "address.region": region },  // New structure
-        { region: region },            // Old structure
-        { 
-          $and: [
-            { "address.region": { $exists: false } },
-            { region: { $exists: false } }
-          ]
-        }  // No region set (will use default)
-      );
-    }
-    if (city) {
-      query.$or.push(
-        { "address.city": city },      // New structure
-        { city: city },                // Old structure
-        { 
-          $and: [
-            { "address.city": { $exists: false } },
-            { city: { $exists: false } }
-          ]
-        }  // No city set (will use default)
-      );
-    }
+    // Process users to add default values and filter
+    const processedUsers = allUsers
+      .map(user => {
+        const userObj = user.toObject();
+        if (!userObj.address) {
+          userObj.address = {};
+        }
+        // Set default values for region and city
+        userObj.address.region = userObj.address.region || userObj.region || 'III';
+        userObj.address.city = userObj.address.city || userObj.city || 'Olongapo';
+        return userObj;
+      })
+      .filter(user => {
+        if (region && user.address.region !== region) return false;
+        if (city && user.address.city !== city) return false;
+        return true;
+      });
 
-    // If no filters are applied, remove the $or operator
-    if (query.$or.length === 0) {
-      delete query.$or;
-    }
-
-    console.log("MongoDB Query:", query);
-
-    // Get total count
-    const count = await User.countDocuments(query);
+    // Get total count after filtering
+    const count = processedUsers.length;
     console.log("Total users found:", count);
 
-    // Get users with pagination
-    const users = await User.find(query)
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+    // Apply pagination
+    const paginatedUsers = processedUsers.slice(
+      (page - 1) * limit,
+      page * limit
+    );
 
-    // Process users to add default values
-    const processedUsers = users.map(user => {
-      const userObj = user.toObject();
-      if (!userObj.address) {
-        userObj.address = {};
-      }
-      if (!userObj.address.region && !userObj.region) {
-        userObj.address.region = 'III';
-      }
-      if (!userObj.address.city && !userObj.city) {
-        userObj.address.city = 'Olongapo';
-      }
-      return userObj;
-    });
-
-    console.log("Users found:", processedUsers.map(user => ({
+    console.log("Users found:", paginatedUsers.map(user => ({
       id: user._id,
       name: user.name,
-      region: user.address?.region || user.region || 'III',
-      city: user.address?.city || user.city || 'Olongapo',
+      region: user.address.region,
+      city: user.address.city,
       email: user.email
     })));
 
     return NextResponse.json({
-      users: processedUsers,
+      users: paginatedUsers,
       count,
       currentPage: page,
       totalPages: Math.ceil(count / limit)
