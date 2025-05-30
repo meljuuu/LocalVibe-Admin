@@ -4,6 +4,7 @@ import styles from "../ui/dashboard/dashboard.module.css";
 import Rightbar from "../ui/dashboard/rightbar/rightbar";
 import Transactions from "../ui/dashboard/transactions/transactions";
 import UserMap from "../ui/dashboard/userMap/userMap";
+import Locations from "../ui/dashboard/locations/locations";
 
 const Dashboard = () => {
   return (
@@ -13,6 +14,7 @@ const Dashboard = () => {
           <Card />
         </div>
         <UserMap />
+        <Locations />
         <Transactions />
         <Chart />
       </div>
